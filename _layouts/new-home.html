@@ -1,0 +1,165 @@
+<!DOCTYPE HTML>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <title>Ricardo Martin-Brualla</title>
+  
+  <meta name="author" content="Ricardo Martin-Brualla">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+  <!-- TODO <link rel="icon" type="image/png" href="images/seal_icon.png"> -->
+</head>
+
+<body>
+
+  <table style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+    <tr style="padding:0px">
+      <td style="padding:0px">
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <tr style="padding:0px">
+            <td style="padding:2.5%;width:63%;vertical-align:middle">
+              <p style="text-align:center">
+                <name>Ricardo Martin-Brualla</name>
+              </p>
+              <p>
+                I am a staff engineer at <a href="https://ai.google/research">Google</a>, where I work in <a href="https://blog.google/technology/research/project-starline/">Project Starline</a> building future telepresence systems, and doing research in computer vision, graphics and machine learning.
+              </p>
+              <p>
+                I did my PhD in Computer Science and Engineering at the <a href="http://www.cs.washington.edu/">University of Washington</a> in 2016 with <a href="http://homes.cs.washington.edu/~seitz/">Steve Seitz</a> as my advisor. and my bachelors at <a href="https://www.upc.edu/en">Barcelona Tech / UPC</a>. I taught Computer Vision at the University of Washington in 2018, and advise PhD students there. I attended the Deutsche Schule Madrid, where I learned a lot of German.
+              </p>
+              <p>
+                I love traveling and seeing other parts of the world, ideally by human power. In 2010, I traveled by bicycle around New Zealand, visiting the antipodes of my house in Madrid. I also went to Vanuatu and climbed the <a href="https://volcano.si.edu/volcano.cfm?vn=257040">Ambrym Volcano</a> to see lava bubbling. In 2016, I backpacked across Iceland, and explored Madagascar and Central Asia. In 2021, I traveled through Alaska with my wife, packrafting and hiking from Ketchikan to Healy, and we wrote a blog at <a href="north2arctic.com">north2arctic.com</a>.
+              </p>
+              <p style="text-align:center">
+                <a href="mailto:rmbrualla@gmail.com">Email</a> &nbsp/&nbsp
+                <a href="https://scholar.google.com/citations?hl=en&user=9F59OCYAAAAJ">Google Scholar</a> &nbsp/&nbsp
+                <a href="https://twitter.com/rmbrualla">Twitter</a> &nbsp/&nbsp
+                <a href="https://github.com/rmbrualla/">Github</a>
+              </p>
+            </td>
+            <td style="padding:2.5%;width:25%;max-width:25%">
+               <img style="width:100%;max-width:100%" alt="profile photo" src="images/RicardoMartinBrualla.jpg" class="hoverZoomLink">
+            </td>
+          </tr>
+        </tbody></table>
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+            <tr>
+            <td style="padding:20px;width:100%;vertical-align:middle">
+              <heading>Research</heading>
+              <!-- <p>
+              </p> -->
+            </td>
+          </tr>
+        </tbody></table>
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+
+        {% for pub in site.data.publications %}
+        <tr onmouseout="{{pub.label}}_stop()" onmouseover="{{pub.label}}_start()">
+          <td style="padding:10px;width:25%;vertical-align:middle">
+            {% unless pub.visual == "none" %}
+            <div class="one">
+              {% if pub.visual == "overlay_video" %}
+                <div class="two" id='{{pub.label}}_image'><video  width=100% height=100% muted autoplay loop>
+                <source src="images/{{pub.label}}_after.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+                </video></div>
+              {% elsif pub.visual == "overlay_image" %}
+              <div class="two" id='{{pub.label}}_image'>
+                <img src='images/{{pub.label}}_after.jpg' width="160"></div>
+              {% else %}
+              {% endif %}
+              <!-- {% unless pub.visual == "none" %} -->
+              <img src='images/{{pub.label}}_before.jpg' width="160">
+              <!-- {% endunless %} -->
+            </div>
+            {% if pub.visual == "overlay_video" or pub.visual == "overlay_image" %}
+            <script type="text/javascript">
+              function {{pub.label}}_start() {
+                document.getElementById('{{pub.label}}_image').style.opacity = "1";
+              }
+
+              function {{pub.label}}_stop() {
+                document.getElementById('{{pub.label}}_image').style.opacity = "0";
+              }
+              {{pub.label}}_stop()
+            </script>
+            {% endif %}
+            {% endunless %}
+          </td>
+          {% assign ref_link = "" %}
+          {% if pub.project_page %}
+            {% assign ref_link = pub.project_page %}
+          {% elsif pub.arxiv %}
+            {% assign ref_link = pub.arxiv %}
+          {% elsif pub.paper %}
+            {% assign ref_link = pub.paper %}
+          {% endif %}
+          <td style="padding:10px;width:75%;vertical-align:middle">
+            <a href="{{ref_link}}">
+              <papertitle>{{pub.title}}</papertitle>
+            </a>
+            <br>
+
+            {% assign authors_strs = pub.authors | split: ";" %}
+            {% assign authors = '' | split: '' %}
+            {% for author_str in authors_strs %}
+                {% assign tokens = author_str | split: "," %}
+                {% assign first = tokens[1] | strip %}
+                {% assign last = tokens[0] | strip %}
+                {% assign author = first | append: " " | append: last %}
+                {% assign authors = authors | push: author %}
+            {% endfor %}
+            {% for author in authors %}
+              {%- if author == "Ricardo Martin-Brualla" -%} 
+                <strong>{{-author-}}</strong> 
+              {%- else -%} 
+                {%- assign author_no_dot = author | remove: "." -%}
+                {%- if site.data.personal_sites.sites contains author_no_dot -%}
+                  <a href="{{site.data.personal_sites.sites[author_no_dot]}}">{{-author-}}</a>   
+                {%- else -%}
+                  {{-author-}}
+                {%- endif -%}
+              {%- endif -%}
+              {%- if forloop.last == false %}, {% endif -%}
+            {%- endfor -%}
+            <br>
+            <em>{{pub.publication}}</em>, {{pub.year}} 
+            <br>
+            {%- assign first = true -%}
+            {%- if pub.project_page -%}
+              <a href="{{pub.project_page}}">project page</a>
+              {%- assign first = false -%}
+            {%- endif -%}
+            {%- if pub.arxiv -%}
+              {%- if first == false %} / {% endif -%}
+              <a href="{{pub.arxiv}}">arXiv</a>
+              {%- assign first = false -%}
+            {%- endif -%}
+            {%- if pub.paper -%}
+              {%- if first == false %} / {% endif -%}
+              <a href="{{pub.paper}}">paper</a>
+              {%- assign first = false -%}
+            {%- endif -%}
+            {%- if pub.code -%}
+              {%- if first == false %} / {% endif -%}
+              <a href="{{pub.code}}">code</a>
+              {%- assign first = false -%}
+            {%- endif -%}
+            {%- if pub.video -%}
+              {%- if first == false %} / {% endif -%}
+              <a href="{{pub.video}}">video</a>
+              {%- assign first = false -%}
+            {%- endif -%}
+            <p>{{pub.notes | markdownify }}</p>
+          </td>
+        </tr> 
+        {% endfor %}
+
+      </tbody></table>
+
+      </td>
+    </tr>
+  </table>
+</body>
+
+</html>
